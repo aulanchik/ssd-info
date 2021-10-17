@@ -1,6 +1,14 @@
 #!/bin/bash
 
 #######################################
+# OS verification                     #
+#######################################
+if [[ "$OSTYPE" != "linux-gnu" ]]; then
+    echo 'Supported platforms: LinuxOS'
+    exit 1
+fi
+
+#######################################
 # Variables                           #
 #######################################
 
@@ -33,19 +41,24 @@ MB_WRITTEN=$(echo "scale=3; $BYTES_WRITTEN / $BYTES_PER_MB" | bc)
 GB_WRITTEN=$(echo "scale=3; $BYTES_WRITTEN / $BYTES_PER_GB" | bc)
 TB_WRITTEN=$(echo "scale=3; $BYTES_WRITTEN / $BYTES_PER_TB" | bc)
 
+ON_TIME_DAYS=$(echo "scale=3; $(($ON_TIME / 24))" | bc)
+
 # Output results...
 echo "------------------------------"
 echo " SSD Status:   $SSD_DEVICE"
 echo "------------------------------"
-echo " On time:      $(echo $ON_TIME | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta') hr"
+echo " On time:                     "
+echo "           Hours: $(echo $ON_TIME ) hr"
+echo "           Days:  $(echo $ON_TIME_DAYS ) "
 echo "------------------------------"
 echo " Data written:"
 echo "           MB: $(echo $MB_WRITTEN | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')"
 echo "           GB: $(echo $GB_WRITTEN | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')"
 echo "           TB: $(echo $TB_WRITTEN | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')"
 echo "------------------------------"
-echo " Mean write rate:"
+echo " Avg. write rate:"
 echo "        MB/hr: $(echo "scale=3; $MB_WRITTEN / $ON_TIME" | bc | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')"
+echo "        GB/hr: $(echo "scale=3; $GB_WRITTEN / $ON_TIME" | bc | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')"
 echo "------------------------------"
 echo " Drive health: ${WEAR_COUNT} %"
 echo "------------------------------"
