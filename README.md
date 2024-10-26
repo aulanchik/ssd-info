@@ -30,6 +30,3 @@ attempting to consult drive for specific information which isn't available for r
 ### Testing ###
 
 * Tested on Samsung SSD 860 (QVO/EVO/PRO) series. For other SSD series output might differ. 
-
-### Contributors ###
-Author: Artyom Ulanchik <artyom.u@outlook.com>
